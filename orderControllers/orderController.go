@@ -1,26 +1,10 @@
 package orderControllers
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/go-playground/validator/v10"
+	"github.com/swapnika/restaurant-management/database"
+	"go.mongodb.org/mongo-driver/mongo"
+)
 
-func GetOrders() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
-}
-func GetOrder() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
-}
-
-func CreateOrder() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
-}
-
-func UpdateOrder() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
-}
+var orderCollection *mongo.Collection = database.OpenCollection(database.Client, "order")
+var validate = validator.New()
