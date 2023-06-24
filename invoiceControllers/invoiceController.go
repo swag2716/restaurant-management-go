@@ -1,25 +1,24 @@
 package invoiceControllers
 
-import "github.com/gin-gonic/gin"
+import (
+	"time"
 
-func GetInvoices() gin.HandlerFunc {
-	return func(c *gin.Context) {
+	"github.com/go-playground/validator/v10"
+	"github.com/swapnika/restaurant-management/database"
+	"go.mongodb.org/mongo-driver/mongo"
+)
 
-	}
+type InvoiceViewFormat struct {
+	Invoice_id       string
+	Payment_method   string
+	Order_id         string
+	Payment_status   *string
+	Payment_due      interface{}
+	Table_no         interface{}
+	Payment_due_date time.Time
+	Order_details    interface{}
 }
-func GetInvoice() gin.HandlerFunc {
-	return func(c *gin.Context) {
 
-	}
-}
-func CreateInvoice() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
-}
-
-func UpdateInvoice() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
-}
+var invoiceCollection *mongo.Collection = database.OpenCollection(database.Client, "invoice")
+var orderCollection *mongo.Collection = database.OpenCollection(database.Client, "order")
+var validate = validator.New()

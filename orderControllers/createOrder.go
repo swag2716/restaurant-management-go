@@ -53,3 +53,18 @@ func CreateOrder() gin.HandlerFunc {
 
 	}
 }
+
+func OrderItemOrderCreator(order models.Order) string {
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
+	order.Created_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+	order.Updated_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
+
+	order.ID = primitive.NewObjectID()
+	order.Order_id = order.ID.Hex()
+
+	orderCollection.InsertOne(ctx, order)
+
+	return order.Order_id
+
+}
