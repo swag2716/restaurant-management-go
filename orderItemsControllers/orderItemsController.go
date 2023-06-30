@@ -1,39 +1,16 @@
 package orderItemsControllers
 
 import (
-	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"github.com/go-playground/validator/v10"
+	"github.com/swapnika/restaurant-management/database"
+	"github.com/swapnika/restaurant-management/models"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func GetOrderItems() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
-}
-func GetOrderItem() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
+type OrderItemPack struct {
+	Table_id    *string
+	Order_items []models.OrderItem
 }
 
-func GetOrderItemsByOrder() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
-}
-
-func ItemsByOrder(id string) (orderItems []primitive.M, err error) {
-
-}
-
-func CreateOrderItem() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
-}
-
-func UpdateOrderItem() gin.HandlerFunc {
-	return func(c *gin.Context) {
-
-	}
-}
+var orderItemCollection *mongo.Collection = database.OpenCollection(database.Client, "orderItem")
+var validate = validator.New()

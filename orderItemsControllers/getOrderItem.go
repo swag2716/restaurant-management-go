@@ -1,4 +1,4 @@
-package tableControllers
+package orderItemsControllers
 
 import (
 	"context"
@@ -6,27 +6,25 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/swapnika/restaurant-management/models"
 	"go.mongodb.org/mongo-driver/bson"
 )
 
-func GetTables() gin.HandlerFunc {
+func GetOrderItem() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
 
-		result, err := tableCollection.Find(ctx, bson.M{})
+		orderItemId := c.Param("orderItem_id")
+		var orderItem models.OrderItem
+		err := orderItemCollection.FindOne(ctx, bson.M{"order_item_id": orderItemId}).Decode(&orderItem)
 
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
 
-		var allTables []bson.M
+		c.JSON(http.StatusOK, orderItem)
 
-		if err := result.All(ctx, &allTables); err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		}
-
-		c.JSON(http.StatusOK, allTables)
 	}
 }
