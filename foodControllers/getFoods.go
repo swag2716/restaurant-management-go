@@ -2,6 +2,7 @@ package foodControllers
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -46,7 +47,7 @@ func GetFoods() gin.HandlerFunc {
 					{Key: "$sum", Value: 1},
 				}},
 
-				{Key: "$data", Value: bson.D{
+				{Key: "data", Value: bson.D{
 					{Key: "$push", Value: "$$ROOT"},
 				}},
 			}},
@@ -76,7 +77,8 @@ func GetFoods() gin.HandlerFunc {
 
 		var allFoods []bson.M
 
-		if err = result.All(ctx, &allFoods); err != nil {
+		if err := result.All(ctx, &allFoods); err != nil {
+			fmt.Println("Here is the error")
 			log.Fatal(err)
 		}
 

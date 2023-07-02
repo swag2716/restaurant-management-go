@@ -23,6 +23,7 @@ func Signup() gin.HandlerFunc {
 		var user models.User
 		if err := c.BindJSON(&user); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
 		}
 
 		// it validates if the structs fields satisfy the validation tags defined on them
@@ -38,10 +39,12 @@ func Signup() gin.HandlerFunc {
 		if err != nil {
 			log.Panic(err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "error ocurred while checking for the email"})
+			return
 		}
 
 		if count > 0 {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "this email already exist"})
+			return
 		}
 
 		// to hash password and store it
@@ -53,10 +56,12 @@ func Signup() gin.HandlerFunc {
 		if err != nil {
 			log.Panic(err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "error ocurred while checking for phone number"})
+			return
 		}
 
 		if count > 0 {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "this phone number already exist"})
+			return
 		}
 
 		user.Created_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
@@ -73,7 +78,7 @@ func Signup() gin.HandlerFunc {
 		resultInsertionNumber, insertErr := userCollection.InsertOne(ctx, user)
 
 		if insertErr != nil {
-			msg := fmt.Sprintf("User item was not created")
+			msg := fmt.Sprintln("User item was not created")
 			c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
 			return
 		}

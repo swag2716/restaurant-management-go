@@ -37,8 +37,8 @@ func UpdateFood() gin.HandlerFunc {
 		if food.Food_image != nil {
 			updateObj = append(updateObj, bson.E{Key: "food_image", Value: food.Food_image})
 		}
-		if food.Menu_id != nil {
-			err := menuCollection.FindOne(ctx, food.Menu_id).Decode(&menu)
+		if food.Menu_id != "" {
+			err := menuCollection.FindOne(ctx, bson.M{"menu_id": food.Menu_id}).Decode(&menu)
 			if err != nil {
 				c.JSON(http.StatusInternalServerError, gin.H{"error": "menu was not found"})
 				return

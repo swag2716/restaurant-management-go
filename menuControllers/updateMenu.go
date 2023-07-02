@@ -2,6 +2,7 @@ package menuControllers
 
 import (
 	"context"
+	"log"
 	"net/http"
 	"time"
 
@@ -60,13 +61,14 @@ func UpdateMenu() gin.HandlerFunc {
 			ctx,
 			filter,
 			bson.D{
-				{Key: "set", Value: updateObj},
+				{Key: "$set", Value: updateObj},
 			},
 			&opt,
 		)
 
 		if err != nil {
 			msg := "Menu update failed"
+			log.Fatal(err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
 			return
 		}

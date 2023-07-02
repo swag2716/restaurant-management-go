@@ -15,7 +15,7 @@ func GetOrders() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
 
-		result, err := orderCollection.Find(context.TODO(), bson.M{})
+		result, err := orderCollection.Find(ctx, bson.M{})
 
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "error occured while listing order items"})
@@ -27,7 +27,7 @@ func GetOrders() gin.HandlerFunc {
 			log.Fatal(err)
 		}
 
-		c.JSON(http.StatusOK, result)
+		c.JSON(http.StatusOK, allOrders)
 
 	}
 }
