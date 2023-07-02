@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/swapnika/restaurant-management/foodControllers"
 	"github.com/swapnika/restaurant-management/models"
+	"github.com/swapnika/restaurant-management/orderControllers"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -28,7 +29,7 @@ func CreateOrderItem() gin.HandlerFunc {
 		order.Order_date, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
 		orderItemsToBeInserted := []interface{}{}
 		order.Table_id = orderItemPack.Table_id
-		order_id := OrderItemOrderCreator(order)
+		order_id := orderControllers.OrderItemOrderCreator(order)
 
 		for _, orderItem := range orderItemPack.Order_items {
 			orderItem.Order_id = order_id
