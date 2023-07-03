@@ -6,6 +6,11 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
+type OrderItemPack struct {
+	Table_id    *string     `json:"table_id" validate:"required"`
+	Order_items []OrderItem `json:"order_items" validate:"required"`
+}
+
 type OrderItem struct {
 	ID            primitive.ObjectID `bson:"_id"`
 	Quantity      *string            `json:"quantity" validate:"required,eq=S|eq=M|eq=L"`

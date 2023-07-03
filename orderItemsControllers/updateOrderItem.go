@@ -46,8 +46,8 @@ func UpdateOrderItem() gin.HandlerFunc {
 		upsert := true
 		filter := bson.E{Key: "orderItem_id", Value: orderItemId}
 
-		orderItem.ID = primitive.NewObjectID()
-		orderItem.Order_id = orderItem.ID.Hex()
+		// orderItem.ID = primitive.NewObjectID()
+		// orderItem.Order_id = orderItem.ID.Hex()
 
 		opt := options.UpdateOptions{
 			Upsert: &upsert,

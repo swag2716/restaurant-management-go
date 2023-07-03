@@ -18,11 +18,12 @@ func CreateOrderItem() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
 
-		var orderItemPack OrderItemPack
+		var orderItemPack models.OrderItemPack
 		var order models.Order
 
-		if err := c.BindJSON(orderItemPack); err != nil {
+		if err := c.BindJSON(&orderItemPack); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			// log.Fatal("orderitempack err")
 			return
 		}
 
@@ -36,6 +37,7 @@ func CreateOrderItem() gin.HandlerFunc {
 			validationErr := validate.Struct(orderItem)
 
 			if validationErr != nil {
+				log.Fatal("validation err")
 				c.JSON(http.StatusBadRequest, gin.H{"error": validationErr.Error()})
 				return
 			}
